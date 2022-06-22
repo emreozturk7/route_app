@@ -6,49 +6,63 @@ function App() {
   const [count, setCount] = useState(0);
 
   function newRoute() {
-    setRoutes([...routes, { "id": count, "nameID": "", "gpc_latID": "", "gpc_lonID": "", "SCID": "" }]);
-    setCount(count => count + 1)
+    setCount(count => count + 1);
+    setRoutes([...routes, { id: count, isim: "", gpc_lat: "", gpc_lon: "", SC: "" }]);
   }
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    setRoutes([...routes, { "id": e.index, "nameID": e.target.value, "gpc_latID": e.target.value, "gpc_lonID": e.target.value, "SCID": e.target.value }]);
+  const handleChange = (index) => (e) => {
+    let yeniListe = routes;
+    yeniListe[index].isim = e.target.value;
+    setRoutes(yeniListe);
+  };
+
+  const handleChange2 = (index) => e => {
+    let yeniListe = routes;
+    yeniListe[index].gpc_lat = e.target.value;
+    setRoutes(yeniListe);
+  };
+
+  const handleChange3 = (index) => e => {
+    let yeniListe = routes;
+    yeniListe[index].gpc_lon = e.target.value;
+    setRoutes(yeniListe);
+  };
+
+  const handleChange4 = (index) => e => {
+    let yeniListe = routes;
+    yeniListe[index].SC = e.target.value;
+    setRoutes(yeniListe);
+  };
+
+  const submit = () => {
     console.log(routes);
   }
 
   return (
     <div className="App">
-      <div className="container">
-        <input type="text" placeholder="Güzergah" />
-        <br />
-        <button onClick={() => newRoute()}>Yeni Ekle</button>
-        <br />
-        <form onSubmit={handleSubmit}>
+      <button onClick={newRoute}>Yeni ekle</button>
+      {
+        <div>
           {
-            <div>
-              {
-                routes.map((index) => {
-                  return NewRoute(index);
-                })
-              }
-            </div>
+            routes.map((route) => {
+              return NewRoute(handleChange, handleChange2, handleChange3, handleChange4, route.id);
+            })
           }
-          <button type="submit">KAYDET</button>
-        </form>
-        <br />
-        <br />
-      </div>
+        </div>
+      }
+      <button onClick={submit}>ekle</button>
     </div>
   );
 }
 
-function NewRoute(index) {
+function NewRoute(handleChange, handleChange2, handleChange3, handleChange4, index) {
   return (
-    <div key={index.index}>
-      <input type="text" placeholder="name" key={`name+${index.index}`} />
-      <input type="text" placeholder="gpc_lat" key={`gpc_lat+${index.index}`} />
-      <input type="text" placeholder="gpc_lon" key={`gpc_lon+${index.index}`} />
-      <input type="text" placeholder="SC" key={`SC+${index.index}`} />
+    <div >
+      <div>{index}</div>
+      <input type="text" placeholder="name" onChange={handleChange(index)} />
+      <input type="text" placeholder="gpc_lat" onChange={handleChange2(index)} />
+      <input type="text" placeholder="gpc_lon" onChange={handleChange3(index)} />
+      <input type="text" placeholder="SC" onChange={handleChange4(index)} />
     </div>
   )
 }
