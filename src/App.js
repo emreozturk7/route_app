@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 function App() {
 
   const [routes, setRoutes] = useState([]);
@@ -7,8 +7,12 @@ function App() {
   const [error, setError] = useState(false);
   const [buttonVisible, setButtonVisible] = useState(false);
 
-  function newRoute() {
+  useEffect(() => {
     buttonAktif();
+  }, [routes]);
+
+
+  function newRoute() {
     setCount(count => count + 1);
     setRoutes([...routes, { id: count, isim: "", gpc_lat: "", gpc_lon: "", SC: "" }]);
   }
